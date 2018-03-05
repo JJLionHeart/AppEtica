@@ -1,8 +1,10 @@
 package com.example.lonewolf.appetica;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +16,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        TutorialsFragment.OnFragmentInteractionListener,
+        QuestionaryFragment.OnFragmentInteractionListener,
+        HelpFragment.OnFragmentInteractionListener{
 
+    private Fragment active_fragment = null;
+    private TutorialsFragment tutorials_fragment = null;
+    private HelpFragment help_fragment = null;
+    private QuestionaryFragment questionary_fragment = null;
+
+    private boolean selected_fragment = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +51,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        tutorials_fragment = new TutorialsFragment();
+        questionary_fragment = new QuestionaryFragment();
+        help_fragment = new HelpFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, tutorials_fragment).commit();
+
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -80,22 +100,29 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_tutorials) {
+            selected_fragment = true;
+            active_fragment = tutorials_fragment;
+        } else if (id == R.id.nav_questionary) {
+            selected_fragment = true;
+            active_fragment = questionary_fragment;
+        } else if (id == R.id.nav_help) {
+            selected_fragment = true;
+            active_fragment  = help_fragment;
+        }
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if(selected_fragment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_container, active_fragment).commit();
+            selected_fragment = false;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
