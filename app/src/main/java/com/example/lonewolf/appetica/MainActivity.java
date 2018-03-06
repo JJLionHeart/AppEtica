@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity
     private HelpFragment help_fragment = null;
     private QuestionaryFragment questionary_fragment = null;
 
+    private CharSequence title_tutorials = "Tutoriales";
+    private CharSequence title_questionary = "Autodiagnóstico";
+    private CharSequence title_help = "Buscar ayuda";
+
+    private CharSequence title_active = null;
+
     private boolean selected_fragment = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +40,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,6 +57,8 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, tutorials_fragment).commit();
 
+        title_active = title_tutorials;
+        setTitle(title_active);
         navigationView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -103,17 +103,21 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_tutorials) {
             selected_fragment = true;
             active_fragment = tutorials_fragment;
+            title_active = title_tutorials;
         } else if (id == R.id.nav_questionary) {
             selected_fragment = true;
             active_fragment = questionary_fragment;
+            title_active = title_questionary;
         } else if (id == R.id.nav_help) {
             selected_fragment = true;
             active_fragment  = help_fragment;
+            title_active = title_help;
         }
 
         if(selected_fragment) {
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, active_fragment).commit();
             selected_fragment = false;
+            setTitle(title_active);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

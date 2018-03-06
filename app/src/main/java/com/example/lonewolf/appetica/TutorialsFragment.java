@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -27,6 +29,9 @@ public class TutorialsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ListView tutorials_list = null;
+    private String[] tutorials_labels = new String[] {"Meditación", "Técnicas de respiración",
+                                "Música de relajación"};
     private OnFragmentInteractionListener mListener;
 
     public TutorialsFragment() {
@@ -58,13 +63,24 @@ public class TutorialsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutorials, container, false);
+        View view = inflater.inflate(R.layout.fragment_tutorials, container, false);
+        tutorials_list = (ListView) view.findViewById(R.id.tutorials_list);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_expandable_list_item_1, tutorials_labels);
+
+        tutorials_list.setAdapter(adapter);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -83,6 +99,7 @@ public class TutorialsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
