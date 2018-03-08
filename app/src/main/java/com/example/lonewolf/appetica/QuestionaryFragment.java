@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -64,7 +65,17 @@ public class QuestionaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_questionary, container, false);
+        View view = inflater.inflate(R.layout.fragment_questionary, container, false);
+        final Button start_button = (Button) view.findViewById(R.id.button_start);
+
+        start_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment questions = new QuestionsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.main_container, questions).commit();
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

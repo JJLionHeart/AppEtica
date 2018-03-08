@@ -21,8 +21,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        style="@android:style/Widget.Material.Light.Button"
+        android:id="@+id/button_start"
+        style="@android:style/Widget.Button"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="127dp"

@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TutorialsFragment.OnFragmentInteractionListener,
         QuestionaryFragment.OnFragmentInteractionListener,
-        HelpFragment.OnFragmentInteractionListener{
+        HelpFragment.OnFragmentInteractionListener,
+        QuestionsFragment.OnFragmentInteractionListener{
 
     private Fragment active_fragment = null;
     private TutorialsFragment tutorials_fragment = null;
