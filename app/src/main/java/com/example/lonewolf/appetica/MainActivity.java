@@ -15,12 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         TutorialsFragment.OnFragmentInteractionListener,
         QuestionaryFragment.OnFragmentInteractionListener,
         HelpFragment.OnFragmentInteractionListener,
-        QuestionsFragment.OnFragmentInteractionListener{
+        QuestionsFragment.OnFragmentInteractionListener,
+        TutorialMeditacion.OnFragmentInteractionListener,
+        TutorialRespiracion.OnFragmentInteractionListener {
 
     private Fragment active_fragment = null;
     private TutorialsFragment tutorials_fragment = null;
@@ -65,18 +69,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        // Override Transition
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
         }
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -130,4 +138,5 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

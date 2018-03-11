@@ -1,32 +1,23 @@
 package com.example.lonewolf.appetica;
 
 import android.content.Context;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TutorialsFragment.OnFragmentInteractionListener} interface
+ * {@link TutorialRespiracion.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TutorialsFragment#newInstance} factory method to
+ * Use the {@link TutorialRespiracion#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TutorialsFragment extends Fragment {
+public class TutorialRespiracion extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,11 +27,9 @@ public class TutorialsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ListView tutorials_list_view = null;
-    private ArrayList<TutorialList> tutorial_list = null;
     private OnFragmentInteractionListener mListener;
 
-    public TutorialsFragment() {
+    public TutorialRespiracion() {
         // Required empty public constructor
     }
 
@@ -50,11 +39,11 @@ public class TutorialsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TutorialsFragment.
+     * @return A new instance of fragment TutorialRespiracion.
      */
     // TODO: Rename and change types and number of parameters
-    public static TutorialsFragment newInstance(String param1, String param2) {
-        TutorialsFragment fragment = new TutorialsFragment();
+    public static TutorialRespiracion newInstance(String param1, String param2) {
+        TutorialRespiracion fragment = new TutorialRespiracion();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,59 +58,13 @@ public class TutorialsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tutorials, container, false);
-        tutorial_list = new ArrayList<TutorialList>();
-
-        // Instantiation of all the tutorials
-        tutorial_list.add(new TutorialList("Meditacion", getResources().getDrawable(R.mipmap.ic_launcher_round)));
-        tutorial_list.add(new TutorialList("Técnicas de respiración", getResources().getDrawable(R.mipmap.ic_launcher_round)));
-
-        tutorials_list_view = (ListView) view.findViewById(R.id.tutorials_list);
-
-        AdapterTutorial adapter = new AdapterTutorial(getActivity(), tutorial_list);
-
-        tutorials_list_view.setAdapter(adapter);
-        tutorials_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Fragment selected_tutorial = null;
-                switch(i){
-                    case 0:
-                        selected_tutorial = new TutorialMeditacion();
-                        break;
-                    case 1:
-                        selected_tutorial = new TutorialRespiracion();
-                        break;
-                    default:
-                        selected_tutorial = null;
-                        break;
-                }
-                if(selected_tutorial != null){
-
-
-
-
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                    ft.replace(R.id.main_container, selected_tutorial);
-                    ft.addToBackStack(null);
-
-                    ft.commit();
-                }
-            }
-        });
-
-        return view;
+        return inflater.inflate(R.layout.fragment_tutorial_respiracion, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -140,7 +83,6 @@ public class TutorialsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -163,5 +105,4 @@ public class TutorialsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    }
+}

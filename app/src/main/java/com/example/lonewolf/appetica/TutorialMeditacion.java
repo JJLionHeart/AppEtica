@@ -4,27 +4,26 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link QuestionaryFragment.OnFragmentInteractionListener} interface
+ * {@link TutorialMeditacion.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link QuestionaryFragment#newInstance} factory method to
+ * Use the {@link TutorialMeditacion#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class QuestionaryFragment extends Fragment {
+public class TutorialMeditacion extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
 
-    public QuestionaryFragment() {
+    public TutorialMeditacion() {
         // Required empty public constructor
     }
 
@@ -34,11 +33,11 @@ public class QuestionaryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment QuestionaryFragment.
+     * @return A new instance of fragment TutorialMeditacion.
      */
     // TODO: Rename and change types and number of parameters
-    public static QuestionaryFragment newInstance(String param1, String param2) {
-        QuestionaryFragment fragment = new QuestionaryFragment();
+    public static TutorialMeditacion newInstance(String param1, String param2) {
+        TutorialMeditacion fragment = new TutorialMeditacion();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -56,21 +55,9 @@ public class QuestionaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_questionary, container, false);
-        final Button start_button = (Button) view.findViewById(R.id.button_start);
+        View v = inflater.inflate(R.layout.fragment_tutorial_meditacion, container, false);
 
-        start_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment questions = new QuestionsFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                ft.replace(R.id.main_container, questions);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-        return view;
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,6 +84,7 @@ public class QuestionaryFragment extends Fragment {
         mListener = null;
     }
 
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -111,4 +99,6 @@ public class QuestionaryFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
