@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 
 /**
@@ -23,25 +24,117 @@ import android.widget.RadioGroup;
  * create an instance of this fragment.
  */
 public class QuestionsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
     // Question bank, maybe you want to think of a better way of implementing it in the future
-    String[][] question_bank = new String[][] {{"No me siento triste", "Me siento triste",
+    String[][] question_bank = new String[][] {
+            {"No me siento triste", "Me siento triste",
              "Me siento triste todo el tiempo y no puedo librarme de ello",
              "Me siento tan triste o desdichado que no puedo soportarlo"},
+
              {"No estoy particularmente desanimado con respecto al futuro",
                "Me siento desanimado respecto al futuro",
              "Siento que no puedo esperar nada del futuro",
-             "Siento que el futuro es irremediable y que las cosas no pueden mejorar."}};
+             "Siento que el futuro es irremediable y que las cosas no pueden mejorar."},
+
+            {"No me siento fracasado",
+             "Siento que he fracasado más que una persona normal",
+             "Cuando miro hacia el pasado lo único que puedo ver en mi vida es un montón de fracasos",
+             "Siento que como persona soy un fracaso completo"},
+
+            {"Sigo obteniendo tanto placer de las cosas como antes",
+             "No disfruto de las cosas como solía hacerlo",
+             "Ya nada me satisface realmente",
+             "Todo me aburre o me desagrada"},
+
+            {"No siento ninguna culpa particular",
+             "Me siento culpable buena parte del tiempo",
+             "Me siento bastante culpable la mayor parte del tiempo",
+             "Me siento culpable todo el tiempo"},
+
+            {"No siento que esté siendo castigado",
+             "Siento que puedo estar siendo castigado",
+             "Espero ser castigado",
+             "Siento que estoy siendo castigado"},
+
+            {"No me siento decepcionado en mí mismo",
+             "Estoy decepcionado conmigo",
+             "Estoy harto de mí mismo",
+             "Me odio a mí mismo"},
+
+            {"No me siento peor que otros",
+             "Me critico por mis debilidades o errores",
+             "Me culpo todo el tiempo por mis faltas",
+             "Me culpo por todas las cosas malas que suceden"},
+
+            {"No tengo ninguna idea de matarme",
+             "Tengo ideas de matarme, pero no las llevo a cabo",
+             "Me gustaría matarme",
+             "Me mataría si tuviera la oportunidad"},
+
+            {"No lloro más de lo habitual",
+             "Lloro más que antes",
+             "Ahora lloro todo el tiempo",
+             "Antes era capáz de llorar, pero ahora no puedo llorar nunca aunque quisiera"},
+
+            {"No me irrito más ahora que antes",
+             "Me enojo o irrito más fácilmente ahora que antes",
+             "Me siento irritado todo el tiempo",
+             "No me irrito para nada con las cosas que solían irritarme"},
+
+            {"No he perdido interés en otras personas",
+             "Estoy menos interesado en otras personas de lo que solía estar",
+             "He perdido la mayor parte de mi interés en los demás",
+             "He perdido todo mi interés en los demás"},
+
+            {"Tomo decisiones como siempre",
+             "Dejo de tomar decisiones más frecuentemente que antes",
+             "Tengo mayor dificultad que antes en tomar decisiones",
+             "Ya no puedo tomar ninguna decisión"},
+
+            {"No creo que me va peor que antes",
+             "Me preocupa que esté pareciendo avejentado o inatractivo",
+             "Siento que hay cambios permanentes en mi apariencia que me hacen parecer inatractivo",
+             "Creo que me veo horrible"},
+
+            {"Puedo trabajar tan bien como antes",
+             "Me cuesta un mayor esfuerzo empezar a hacer algo",
+             "Tengo que hacer un gran esfuerzo para hacer cualquier cosa",
+             "No puedo hacer ningún tipo de trabajo"},
+
+            {"Puedo dormir tan bien como antes",
+             "No duermo tan bien como antes",
+             "Me despierto 1 o 2 horas más temprano de lo habitual y me cuesta volver a dormir",
+             "Me despierto varias horas más temprano de lo habitual y no puedo volver a dormirme"},
+
+            {"No me canso más de lo habitual",
+             "Me canso más fácilmente de lo que solía cansarme",
+             "Me canso al hacer cualquier cosa",
+             "Estoy demasiado cansado para hacer cualquier cosa"},
+
+            {"Mi apetito no ha variado",
+             "Mi apetito no es tan bueno como antes",
+             "Mi apetito es mucho peor que antes",
+             "Ya no tengo nada de apetito"},
+
+            {"Últimamente no he perdido mucho peso, si es que perdí algo",
+             "He perdido más de 2 kilos",
+             "He perdido más de 4 kilos",
+             "He perdido más de 6 kilos"},
+
+            {"No estoy más preocupado por mi salud de lo habitual",
+             "Estoy preocupado por problemas físicos tales como malestares y dolores de estómago o constipación",
+             "Estoy muy preocupado por problemas físicos y es difícil pensar en otra cosa",
+             "EStoy tan preocupado por mis problemas físicos que no puedo pensar en nada más"},
+
+            {"No he notado cambio reciente de mi interés por el sexo",
+             "Estoy menos interesado por el sexo de lo que solía estar",
+             "Estoy mucho menos interesado por el sexo ahora",
+             "He perdido por completo mi interés por el sexo"}
+
+    };
 
     private RadioGroup answers = null;
     private RadioButton answer_1 = null;
@@ -49,8 +142,12 @@ public class QuestionsFragment extends Fragment {
     private RadioButton answer_3 = null;
     private RadioButton answer_4 = null;
 
+    private int[] selected_answers = null;
+
     private ImageButton next_question = null;
     private ImageButton previous_question = null;
+
+    private TextView question_count = null;
 
     private int current_question;
 
@@ -70,8 +167,7 @@ public class QuestionsFragment extends Fragment {
     public static QuestionsFragment newInstance(String param1, String param2) {
         QuestionsFragment fragment = new QuestionsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,8 +176,7 @@ public class QuestionsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -102,6 +197,37 @@ public class QuestionsFragment extends Fragment {
         next_question = (ImageButton) view.findViewById(R.id.next_question);
         previous_question = (ImageButton) view.findViewById(R.id.previous_question);
 
+        selected_answers = new int[question_bank.length];
+
+        answer_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selected_answers[current_question] = 1;
+            }
+        });
+
+        answer_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selected_answers[current_question] = 2;
+            }
+        });
+
+        answer_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selected_answers[current_question] = 3;
+            }
+        });
+
+        answer_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selected_answers[current_question] = 4;
+            }
+        });
+
+
         next_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +247,8 @@ public class QuestionsFragment extends Fragment {
                 }
             }
         });
+
+        question_count = (TextView) view.findViewById(R.id.question_count);
 
         change_question(current_question);
         return view;
@@ -166,20 +294,41 @@ public class QuestionsFragment extends Fragment {
     }
 
     private void change_question(int question_id){
+
         if(answer_1 != null){
             answer_1.setText(question_bank[question_id][0]);
+            if(selected_answers[question_id] == 0){
+                answers.clearCheck();
+            } else if(selected_answers[question_id] == 1){
+                answers.check(R.id.answer_1);
+            }
         }
 
         if(answer_2 != null){
             answer_2.setText(question_bank[question_id][1]);
+            if(selected_answers[question_id] == 0){
+                answers.clearCheck();
+            } else if(selected_answers[question_id] == 2){
+                answers.check(R.id.answer_2);
+            }
         }
 
         if(answer_3 != null){
             answer_3.setText(question_bank[question_id][2]);
+            if(selected_answers[question_id] == 0){
+                answers.clearCheck();
+            } else if(selected_answers[question_id] == 3){
+                answers.check(R.id.answer_3);
+            }
         }
 
         if(answer_4 != null){
             answer_4.setText(question_bank[question_id][3]);
+            if(selected_answers[question_id] == 0){
+                answers.clearCheck();
+            } else if(selected_answers[question_id] == 4){
+                answers.check(R.id.answer_4);
+            }
         }
 
         if(question_id == 0 && previous_question != null){
@@ -193,5 +342,10 @@ public class QuestionsFragment extends Fragment {
         } else if(question_id != question_bank.length){
             next_question.setVisibility(getView().VISIBLE);
         }
+        if(question_count != null) {
+            question_count.setText(Integer.toString(question_id + 1) + " / " + Integer.toString(question_bank.length));
+        }
     }
+
+
 }
