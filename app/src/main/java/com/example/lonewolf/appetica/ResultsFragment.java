@@ -4,35 +4,28 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link HelpFragment.OnFragmentInteractionListener} interface
+ * {@link ResultsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HelpFragment#newInstance} factory method to
+ * Use the {@link ResultsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HelpFragment extends Fragment implements OnMapReadyCallback {
+public class ResultsFragment extends Fragment {
 
-
+    private int mResult = 0;
     private OnFragmentInteractionListener mListener;
 
-    private MapView map_view;
-    private GoogleMap mGoogleMap;
-
-    public HelpFragment() {
+    public ResultsFragment() {
         // Required empty public constructor
     }
 
@@ -42,12 +35,13 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HelpFragment.
+     * @return A new instance of fragment ResultsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HelpFragment newInstance(String param1, String param2) {
-        HelpFragment fragment = new HelpFragment();
+    public static ResultsFragment newInstance(String param1, String param2) {
+        ResultsFragment fragment = new ResultsFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,24 +50,51 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            mResult = getArguments().getInt("Result");
         }
-        getActivity().setTitle("Buscar Ayuda");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_help, container, false);
-
-        map_view = (MapView) view.findViewById(R.id.help_centers_positions);
-
-        map_view.onCreate(savedInstanceState);
-        if(map_view != null) {
-            map_view.getMapAsync(this);
+        View view =  inflater.inflate(R.layout.fragment_results, container, false);
+        TextView results_text = (TextView) view.findViewById(R.id.results_text);
+        if(mResult <= 10) {
+            results_text.setText(R.string.result_1);
+        } else if(mResult <= 16){
+            results_text.setText(R.string.result_2);
+        } else if(mResult <= 20) {
+            results_text.setText(R.string.result_3);
+        } else if (mResult <= 30) {
+            results_text.setText(R.string.result_4);
+        } else if (mResult <= 40) {
+            results_text.setText(R.string.result_5);
+        } else if (mResult  >= 41) {
+            results_text.setText(R.string.result_6);
         }
 
+        Button action_results = (Button) view.findViewById(R.id.action_results);
+        MainActivity main_activity = (MainActivity) getActivity();
+        final Fragment action_taken;
+        if(mResult >= 17){
+            action_results.setText(R.string.buscar_ayuda);
+            action_taken = main_activity.getHelp_fragment();
+        } else {
+            action_results.setText(R.string.ver_tutoriales);
+            action_taken = main_activity.getTutorials_fragment();
+        }
+
+        action_results.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+                ft.replace(R.id.main_container, action_taken);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
 
         return view;
     }
@@ -100,18 +121,6 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.mGoogleMap = googleMap;
-
-        // Add a marker in Sydney, Australia, and move the camera.
-            LatLng monterrey = new LatLng(25.6832748, -100.2380238);
-        mGoogleMap.addMarker(new MarkerOptions().position(monterrey).title("Monterrey Mexico"));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(monterrey));
-        mGoogleMap.moveCamera(CameraUpdateFactory.zoomTo((float)11.25));
-        map_view.onResume();
     }
 
     /**

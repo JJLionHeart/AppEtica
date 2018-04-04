@@ -50,6 +50,8 @@ public class QuestionaryFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+        getActivity().setTitle("Autodiagnóstico");
+
     }
 
     @Override

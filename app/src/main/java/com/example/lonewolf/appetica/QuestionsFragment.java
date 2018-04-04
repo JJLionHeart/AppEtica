@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,6 +147,7 @@ public class QuestionsFragment extends Fragment {
 
     private ImageButton next_question = null;
     private ImageButton previous_question = null;
+    private Button calculate_button = null;
 
     private TextView question_count = null;
 
@@ -202,28 +204,71 @@ public class QuestionsFragment extends Fragment {
         answer_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(current_question != question_bank.length - 1)
+                    next_question.setVisibility(View.VISIBLE);
                 selected_answers[current_question] = 1;
+
+                if(calculate_button != null) {
+                    if(current_question != question_bank.length - 1){
+                        calculate_button.setVisibility(View.GONE);
+                    } else {
+                        calculate_button.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
 
         answer_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(current_question != question_bank.length - 1)
+                    next_question.setVisibility(View.VISIBLE);
                 selected_answers[current_question] = 2;
+
+                if(calculate_button != null) {
+                    if(current_question != question_bank.length - 1){
+                        calculate_button.setVisibility(View.GONE);
+                    } else {
+                        calculate_button.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }
         });
 
         answer_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(current_question != question_bank.length - 1)
+                    next_question.setVisibility(View.VISIBLE);
                 selected_answers[current_question] = 3;
+
+                if(calculate_button != null) {
+                    if(current_question != question_bank.length - 1){
+                        calculate_button.setVisibility(View.GONE);
+                    } else {
+                        calculate_button.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }
         });
 
         answer_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(current_question != question_bank.length - 1)
+                    next_question.setVisibility(View.VISIBLE);
                 selected_answers[current_question] = 4;
+
+                if(calculate_button != null) {
+                    if(current_question != question_bank.length - 1){
+                        calculate_button.setVisibility(View.GONE);
+                    } else {
+                        calculate_button.setVisibility(View.VISIBLE);
+                    }
+                }
+
             }
         });
 
@@ -233,11 +278,14 @@ public class QuestionsFragment extends Fragment {
             public void onClick(View view) {
                 if(current_question != question_bank.length-1){
                     current_question++;
+                    if(selected_answers[current_question] == 0)
+                        next_question.setVisibility(View.GONE);
                     change_question(current_question);
                 }
             }
         });
 
+        next_question.setVisibility(View.GONE);
         previous_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,6 +297,34 @@ public class QuestionsFragment extends Fragment {
         });
 
         question_count = (TextView) view.findViewById(R.id.question_count);
+        calculate_button = (Button) view.findViewById(R.id.button_calculate);
+        calculate_button.setVisibility(View.GONE);
+
+        calculate_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // First calculate the results
+                int result_addition = 0;
+                for(int i = 0; i < selected_answers.length; i++){
+                    result_addition += (selected_answers[i] - 1);
+                }
+
+
+                Fragment results = new ResultsFragment();
+                Bundle args = new Bundle();
+                args.putInt("Result", result_addition);
+
+                results.setArguments(args);
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+                ft.replace(R.id.main_container, results);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
 
         change_question(current_question);
         return view;
@@ -339,12 +415,15 @@ public class QuestionsFragment extends Fragment {
 
         if(question_id == question_bank.length-1 && next_question != null){
             next_question.setVisibility(View.GONE);
-        } else if(question_id != question_bank.length){
-            next_question.setVisibility(getView().VISIBLE);
+        } else if(selected_answers[current_question] != 0 && current_question != question_bank.length - 1) {
+            next_question.setVisibility(View.VISIBLE);
         }
+
         if(question_count != null) {
             question_count.setText(Integer.toString(question_id + 1) + " / " + Integer.toString(question_bank.length));
         }
+
+
     }
 
 

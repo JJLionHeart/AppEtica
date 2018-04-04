@@ -24,9 +24,11 @@ public class MainActivity extends AppCompatActivity
         HelpFragment.OnFragmentInteractionListener,
         QuestionsFragment.OnFragmentInteractionListener,
         TutorialMeditacion.OnFragmentInteractionListener,
-        TutorialRespiracion.OnFragmentInteractionListener {
+        TutorialRespiracion.OnFragmentInteractionListener,
+        ResultsFragment.OnFragmentInteractionListener {
 
     private Fragment active_fragment = null;
+
     private TutorialsFragment tutorials_fragment = null;
     private HelpFragment help_fragment = null;
     private QuestionaryFragment questionary_fragment = null;
@@ -137,6 +139,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public TutorialsFragment getTutorials_fragment() {
+        return tutorials_fragment;
+    }
+
+    public HelpFragment getHelp_fragment() {
+        return help_fragment;
     }
 
 }
