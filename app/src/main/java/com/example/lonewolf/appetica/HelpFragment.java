@@ -7,12 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -24,7 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Use the {@link HelpFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HelpFragment extends Fragment implements OnMapReadyCallback {
+public class HelpFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
 
     private OnFragmentInteractionListener mListener;
@@ -32,19 +38,14 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
     private MapView map_view;
     private GoogleMap mGoogleMap;
 
+    private Marker AEQUS_Marker;
+    private Marker INGENIUM_Marker;
+
     public HelpFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HelpFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static HelpFragment newInstance(String param1, String param2) {
         HelpFragment fragment = new HelpFragment();
         Bundle args = new Bundle();
@@ -73,6 +74,30 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
         if(map_view != null) {
             map_view.getMapAsync(this);
         }
+
+        ListView help_centers = (ListView) view.findViewById(R.id.help_centers);
+        ArrayAdapter<String> centers_list = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+
+        centers_list.add("AEQUS");
+        centers_list.add("Ingenium A.B.P");
+
+        help_centers.setAdapter(centers_list);
+
+        help_centers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        onMarkerClick(AEQUS_Marker);
+                        break;
+                    case 1:
+                        onMarkerClick(INGENIUM_Marker);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
 
         return view;
@@ -106,12 +131,60 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         this.mGoogleMap = googleMap;
 
-        // Add a marker in Sydney, Australia, and move the camera.
-            LatLng monterrey = new LatLng(25.6832748, -100.2380238);
-        mGoogleMap.addMarker(new MarkerOptions().position(monterrey).title("Monterrey Mexico"));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(monterrey));
-        mGoogleMap.moveCamera(CameraUpdateFactory.zoomTo((float)11.25));
+
+        mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                View view = getLayoutInflater().inflate(R.layout.info_window, null);
+                TextView center_name = (TextView) view.findViewById(R.id.center_name);
+                TextView center_direction = (TextView) view.findViewById(R.id.center_direction);
+                TextView center_phone = (TextView) view.findViewById(R.id.center_phone);
+
+                switch(marker.getTitle()){
+                    case "AEQUS":
+                        center_name.setText("AEQUS");
+                        center_direction.setText("5ta Zona #409 Col. Caracol 64810 Monterrey");
+                        center_phone.setText("01 81 8358 2000 Ext 3413");
+                        break;
+                    case "Ingenium":
+                        center_name.setText("Ingenium A.B.P");
+                        center_direction.setText("Mariano Matamoros s/n, entre 5 de Mayo y 16 de Septiembre, Col. Palo Blanco, San Pedro Garza García");
+                        center_phone.setText(" 01 81 8040 9418");
+                        break;
+                }
+                return view;
+            }
+        });
+
+        // Monterrey latlng
+        LatLng monterrey = new LatLng(25.6648358, -100.3487929);
+
+        // LatLng corresponding to the help centers
+        LatLng AEQUS = new LatLng(25.6648453, -100.293757);
+        LatLng Ingenium = new LatLng(25.6571442,-100.3977316);
+
+        AEQUS_Marker = mGoogleMap.addMarker(new MarkerOptions().position(AEQUS).title("AEQUS"));
+        INGENIUM_Marker = mGoogleMap.addMarker(new MarkerOptions().position(Ingenium).title("Ingenium"));
+        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(monterrey, (float)11.5);
+        mGoogleMap.moveCamera(camera);
+
+        mGoogleMap.setOnMarkerClickListener(this);
+
+
         map_view.onResume();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker.getPosition().latitude + 0.03,
+                marker.getPosition().longitude), 12));
+        marker.showInfoWindow();
+        return true;
     }
 
     /**

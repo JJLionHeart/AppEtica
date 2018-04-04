@@ -128,7 +128,7 @@ public class QuestionsFragment extends Fragment {
             {"No estoy más preocupado por mi salud de lo habitual",
              "Estoy preocupado por problemas físicos tales como malestares y dolores de estómago o constipación",
              "Estoy muy preocupado por problemas físicos y es difícil pensar en otra cosa",
-             "EStoy tan preocupado por mis problemas físicos que no puedo pensar en nada más"},
+             "Estoy tan preocupado por mis problemas físicos que no puedo pensar en nada más"},
 
             {"No he notado cambio reciente de mi interés por el sexo",
              "Estoy menos interesado por el sexo de lo que solía estar",
