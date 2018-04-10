@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity
         QuestionaryFragment.OnFragmentInteractionListener,
         HelpFragment.OnFragmentInteractionListener,
         QuestionsFragment.OnFragmentInteractionListener,
-        TutorialMeditacion.OnFragmentInteractionListener,
         TutorialRespiracion.OnFragmentInteractionListener,
         ResultsFragment.OnFragmentInteractionListener {
 

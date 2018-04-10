@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="questionary_instructions">Se te mostrarán las preguntas correspondientes al test de Becker realizar un diagnóstico preliminar</string>
+    <string name="questionary_instructions">Se te mostrarán las preguntas correspondientes al test de Becker.\n\n Este se trata de un test aplicado por psicólogos profesionales con el objetivo de realizar un diagnóstico preliminar</string>
     <string name="start_button">Comenzar</string>
     <string name="unique_question">En la ultima semana incluyendo hoy, yo:</string>
     <string name="result_presentation">Tus respuestas al test de Beck indican:</string>
@@ -23,6 +23,10 @@
     <string name="ver_tutoriales">Ver Tutoriales</string>
     <string name="google_android_map_api_key">AIzaSyBy0omP-qgoqKn1wkiRL4nFP87uFyrbG-Q</string>
     <string name="help_centers_tv">Lista de centros de ayuda:</string>
+    <string name="breath_instructions">
+        1)  Asegúrate de estar en una posición cómoda\n\n
+        2)  Sincroniza la respiración con la animación. Inhala y Exhala cuando esto es señalado
+    </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

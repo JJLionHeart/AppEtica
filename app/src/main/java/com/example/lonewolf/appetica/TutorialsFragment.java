@@ -76,8 +76,8 @@ public class TutorialsFragment extends Fragment {
         tutorial_list = new ArrayList<TutorialList>();
 
         // Instantiation of all the tutorials
-        tutorial_list.add(new TutorialList("Meditacion", getResources().getDrawable(R.mipmap.ic_launcher_round)));
-        tutorial_list.add(new TutorialList("Técnicas de respiración", getResources().getDrawable(R.mipmap.ic_launcher_round)));
+
+        tutorial_list.add(new TutorialList("Técnicas de respiración", getResources().getDrawable(R.drawable.breath_symbol)));
 
         tutorials_list_view = (ListView) view.findViewById(R.id.tutorials_list);
 
@@ -90,9 +90,6 @@ public class TutorialsFragment extends Fragment {
                 Fragment selected_tutorial = null;
                 switch(i){
                     case 0:
-                        selected_tutorial = new TutorialMeditacion();
-                        break;
-                    case 1:
                         selected_tutorial = new TutorialRespiracion();
                         break;
                     default:

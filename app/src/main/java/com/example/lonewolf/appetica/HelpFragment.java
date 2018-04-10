@@ -181,8 +181,8 @@ public class HelpFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker.getPosition().latitude + 0.03,
-                marker.getPosition().longitude), 12));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker.getPosition().latitude +0.0003,
+                marker.getPosition().longitude), 18));
         marker.showInfoWindow();
         return true;
     }
